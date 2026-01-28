@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Happy Birthday 🎉</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle, #ffdde1, #ee9ca7);
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    .container {
+      text-align: center;
+    }
+
+    .cake {
+      width: 200px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .cake:hover {
+      transform: scale(1.1);
+    }
+
+    .explode {
+      animation: boom 0.7s forwards;
+    }
+
+    @keyframes boom {
+      0% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(1.5) rotate(15deg);
+      }
+      100% {
+        transform: scale(3);
+        opacity: 0;
+      }
+    }
+
+    .countdown {
+      margin-top: 20px;
+      font-size: 24px;
+      color: #fff;
+      display: none;
+    }
+
+    /* confetti */
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background-color: red;
+      top: -10px;
+      animation: fall 3s linear infinite;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(360deg);
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- GANTI GAMBAR KUE JIKA MAU -->
+  <img src="kue.gif" alt="Kue Ultah" class="cake" id="cake">
+  <div class="countdown" id="countdown">Menuju kejutan... 2</div>
+</div>
+
+<!-- SUARA LEDAKAN -->
+<audio id="boomSound">
+  <source src="https://www.soundjay.com/explosion/sounds/explosion-01.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  const cake = document.getElementById("cake");
+  const countdown = document.getElementById("countdown");
+  const sound = document.getElementById("boomSound");
+
+  cake.addEventListener("click", () => {
+    cake.classList.add("explode");
+    sound.play();
+    countdown.style.display = "block";
+
+    createConfetti(80);
+
+    let time = 2;
+    const timer = setInterval(() => {
+      countdown.textContent = `Menuju kejutan... ${time}`;
+      time--;
+
+      if (time < 0) {
+        clearInterval(timer);
+        // GANTI URL TUJUAN DI SINI
+        window.location.href = "https://www.google.com";
+      }
+    }, 1000);
+  });
+
+  function createConfetti(amount) {
+    for (let i = 0; i < amount; i++) {
+      const confetti = document.createElement("div");
+      confetti.classList.add("confetti");
+      confetti.style.left = Math.random() * 100 + "vw";
+      confetti.style.backgroundColor =
+        `hsl(${Math.random() * 360}, 100%, 50%)`;
+      confetti.style.animationDuration = (Math.random() * 2 + 2) + "s";
+      document.body.appendChild(confetti);
+
+      setTimeout(() => confetti.remove(), 3000);
+    }
+  }
+</script>
+
+</body>
+</html>
